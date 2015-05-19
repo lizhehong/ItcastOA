@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<!-- 配置为开发模式 developer mode -->
+	<constant name="struts.devMode" value="true" />
+	<!-- action扩展名改为.do -->
+	<constant name="struts.action.extension" value="do" />
+	<!-- theme set sample -->
+	<constant name="struts.ui.theme" value="simple" />
+	<!-- -->
+	<!-- <include file="cn/itcast/oa/test/struts-test.xml"/> -->
+	<package name="test" namespace="/" extends="struts-default">
+		<action name="testAction" class="testAction">
+			<result name="success">WEB-INF/test/jsp/testStruts2.jsp</result>
+		</action>
+	</package>
+</struts>
