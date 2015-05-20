@@ -12,6 +12,8 @@
 						http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 			
 	<context:component-scan base-package="cn.itcast.oa"></context:component-scan>
+	<!-- 用于数据源配置 -->
 	<import resource="/db/applicationContext-dataSource.xml"/>
+	<!-- 用于hibernate配置 -->
 	<import resource="/db/applicationContext-hibernate.xml"/>
 </beans>

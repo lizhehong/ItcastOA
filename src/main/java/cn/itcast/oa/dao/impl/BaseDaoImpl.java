@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
@@ -72,9 +71,9 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	}
 
 	public List<T> findAll() {
-		hibernateTemplate.find(//
+		
+		return hibernateTemplate.find(//
 				"from " + clazz.getSimpleName());
-		return null;
 	}
 
 	@SuppressWarnings("unchecked")

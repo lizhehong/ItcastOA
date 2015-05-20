@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<!-- 配置岗位管理 -->
+<struts>
+    <package name="role" namespace="/" extends="struts-default">
+        <action name="role_*" class="roleAction" method="{1}">
+            <result name="tolist" type="redirectAction">role_list</result>
+        	<result name="addUI">/WEB-INF/run/jsp/roleAction/addUI.jsp</result>
+        	<result name="list">/WEB-INF/run/jsp/roleAction/list.jsp</result>
+        	<result name="editUI">/WEB-INF/run/jsp/roleAction/editUI.jsp</result>
+        </action>
+    </package>
+</struts>

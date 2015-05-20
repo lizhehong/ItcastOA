@@ -11,11 +11,8 @@
 	<constant name="struts.action.extension" value="do" />
 	<!-- theme set sample -->
 	<constant name="struts.ui.theme" value="simple" />
-	<!-- -->
-	<!-- <include file="cn/itcast/oa/test/struts-test.xml"/> -->
-	<package name="test" namespace="/" extends="struts-default">
-		<action name="testAction" class="testAction">
-			<result name="success">WEB-INF/test/jsp/testStruts2.jsp</result>
-		</action>
-	</package>
+	<!-- 用于test Action-->
+	<include file="cn/itcast/oa/test/struts-test.xml"/> 
+	<!-- 用于Role Action -->
+	<include file="action/struts-role.xml"></include>
 </struts>
