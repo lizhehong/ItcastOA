@@ -1,17 +1,26 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 2015-5-20 22:09:46 by Hibernate Tools 3.4.0.CR1 -->
-<hibernate-mapping>
-    <class name="cn.itcast.oa.domain.Role" table="itcast_role">
-        <id name="id" type="java.lang.Long">
-            <generator class="native" />
-        </id>
-        <property name="name" type="java.lang.String">
-            <column name="name" />
-        </property>
-        <property name="descirption" type="java.lang.String">
-            <column name="descirption" />
-        </property>
-    </class>
+<!-- Generated 2015-5-21 15:21:31 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping package="cn.itcast.oa.domain">
+	<class name="Role" table="itcast_role">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="native" />
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="name" />
+		</property>
+		<property name="description" type="java.lang.String">
+			<column name="description" />
+		</property>
+		
+		
+		
+		<!-- users属性，表达了role与user多对多的关系 -->
+		<set name="users" table="itcast_user_role">
+			<key column="roleId"></key>
+			<many-to-many class="User" column="userId"></many-to-many>
+		</set>
+	</class>
 </hibernate-mapping>

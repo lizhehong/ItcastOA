@@ -6,8 +6,6 @@ import org.junit.Test;
 
 import cn.itcast.oa.dao.RoleDao;
 import cn.itcast.oa.dao.UserDao;
-import cn.itcast.oa.domain.Role;
-import cn.itcast.oa.util.ArrayToStringUtil;
 
 public class BaseDaoTest {
 

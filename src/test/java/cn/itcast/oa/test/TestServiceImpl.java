@@ -2,11 +2,12 @@ package cn.itcast.oa.test;
 
 import javax.annotation.Resource;
 
-import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
-import cn.itcast.oa.test.domain.User;
+import cn.itcast.oa.domain.User;
+
+
 
 
 @Service("testService")

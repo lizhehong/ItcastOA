@@ -8,13 +8,15 @@
 <title>List To Entity</title>
 </head>
 <body>
+	<s:debug></s:debug>
 	<s:iterator value="roleList">
 		<s:property value="id"/>
 		<s:property value="name"/>
-		<s:property value="desciption"/>
+		<s:property value="description"/>
 		<!-- 使用s:a标签，可以自动加上后缀扩展名和前缀工程名称 -->
 		<s:a action="role_del?id=%{id}">删除</s:a>
-		<s:a action="#">修改</s:a><hr/>
+		<s:a action="role_editUI?id=%{id}">修改</s:a><hr/>
 	</s:iterator>
+			<s:a action="role_addUI">添加</s:a><hr/>
 </body>
 </html>

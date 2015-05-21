@@ -1,0 +1,16 @@
+映射模板：
+	多对一：
+		<many-to-one name="" class="" column=""></many-to-one>
+
+	一对多（Set）:
+		<set name="">
+			<key column=""></key>
+			<one-to-many class=""/>
+		</set>
+
+
+	多对多（Set）:
+		<set name="" table="">
+			<key column=""></key>
+			<many-to-many class="" column=""></many-to-many>
+		</set>

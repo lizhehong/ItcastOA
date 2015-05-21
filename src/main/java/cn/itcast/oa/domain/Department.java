@@ -1,33 +1,34 @@
 package cn.itcast.oa.domain;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * 
- * @ClassName: Role
- * @Description: 作为岗位的实体类
- * @author lizhehong
- * @date 2015年5月20日 下午10:05:46
- *
- */
-public class Role {
+public class Department {
 	/**
-	 * 岗位主键
+	 * 部门主键
 	 */
 	private Long id;
 	/**
-	 * 岗位名称
+	 * 部门名称
 	 */
 	private String name;
 	/**
-	 * 岗位描述
+	 * 部门说明
 	 */
 	private String description;
 	/**
-	 * 岗位对应的就职者 多个
+	 * 部门内的人员
 	 */
 	private Set<User> users = new HashSet<User>(0);
+	/**
+	 * 对应的上一级部门 一个
+	 */
+	private Department parent;
+	/**
+	 * 对应的下级部门 多个
+	 */
+	private Set<Department> childrens = new HashSet<Department>(0);
 
 	public Long getId() {
 		return id;
@@ -59,6 +60,22 @@ public class Role {
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+
+	public Department getParent() {
+		return parent;
+	}
+
+	public void setParent(Department parent) {
+		this.parent = parent;
+	}
+
+	public Set<Department> getChildrens() {
+		return childrens;
+	}
+
+	public void setChildrens(Set<Department> childrens) {
+		this.childrens = childrens;
 	}
 
 }

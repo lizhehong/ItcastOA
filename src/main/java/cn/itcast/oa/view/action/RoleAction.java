@@ -14,15 +14,20 @@ import cn.itcast.oa.service.RoleService;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
 
 @Controller
 @Scope("prototype")
-public class RoleAction extends ActionSupport {
+public class RoleAction extends ActionSupport implements ModelDriven<Role>{
 	@Resource
 	private RoleService roleService;
-	private Long id;
 	private Logger logger = LoggerFactory.getLogger(RoleAction.class);
+	private	Role model = new Role();
 
+	public Role getModel() {
+		/*logger.info("======得到模型======");*/
+		return this.model;
+	}
 	/**
 	 * 
 	 * @Title: list
@@ -50,7 +55,7 @@ public class RoleAction extends ActionSupport {
 	 * @throws
 	 */
 	public String del() throws Exception {
-		roleService.del(id);
+		roleService.del(model.getId());
 		logger.info("======删除岗位======");
 		return "tolist";
 	}
@@ -58,14 +63,17 @@ public class RoleAction extends ActionSupport {
 	/**
 	 * 
 	 * @Title: add
-	 * @Description: 添加
+	 * @Description: 添加岗位
 	 * @param @return
 	 * @param @throws Exception 设定文件
 	 * @return String 返回类型
 	 * @throws
 	 */
 	public String add() throws Exception {
-
+		//1.添加对象
+		//2.保存到数据库
+		roleService.save(model);
+		logger.info("======添加岗位======");
 		return "tolist";
 	}
 
@@ -79,7 +87,10 @@ public class RoleAction extends ActionSupport {
 	 * @throws
 	 */
 	public String edit() throws Exception {
-
+		Role role = roleService.getById(model.getId());
+		role.setDescription(model.getDescription());
+		role.setName(model.getName());
+		roleService.update(role);
 		return "tolist";
 	}
 
@@ -93,6 +104,7 @@ public class RoleAction extends ActionSupport {
 	 * @throws
 	 */
 	public String addUI() throws Exception {
+		logger.info("======重定向到添加界面======");
 		return "addUI";
 	}
 
@@ -106,15 +118,9 @@ public class RoleAction extends ActionSupport {
 	 * @throws
 	 */
 	public String editUI() throws Exception {
+		Role role  = roleService.getById(model.getId());
+		//将role放在栈顶，用于回显
+		ActionContext.getContext().getValueStack().push(role);
 		return "editUI";
 	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 }
