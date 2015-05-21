@@ -18,16 +18,21 @@ import com.opensymphony.xwork2.ModelDriven;
 
 @Controller
 @Scope("prototype")
-public class RoleAction extends ActionSupport implements ModelDriven<Role>{
+public class RoleAction extends ActionSupport implements ModelDriven<Role> {
 	@Resource
 	private RoleService roleService;
-	private Logger logger = LoggerFactory.getLogger(RoleAction.class);
-	private	Role model = new Role();
+	private Role model = new Role();
+
+	public RoleAction() {
+		LoggerFactory.getLogger(RoleAction.class).info(
+				"====== RoleAction constructor OK  ======");
+	}
 
 	public Role getModel() {
-		/*logger.info("======得到模型======");*/
+		LoggerFactory.getLogger(RoleAction.class).info("======得到模型======");
 		return this.model;
 	}
+
 	/**
 	 * 
 	 * @Title: list
@@ -41,7 +46,7 @@ public class RoleAction extends ActionSupport implements ModelDriven<Role>{
 		// 准备数据
 		List<Role> roleList = roleService.findAll();
 		ActionContext.getContext().put("roleList", roleList);
-		logger.info("======列岗位出所有的岗位======");
+		LoggerFactory.getLogger(RoleAction.class).info("======列岗位出所有的岗位======");
 		return "list";
 	}
 
@@ -56,7 +61,7 @@ public class RoleAction extends ActionSupport implements ModelDriven<Role>{
 	 */
 	public String del() throws Exception {
 		roleService.del(model.getId());
-		logger.info("======删除岗位======");
+		LoggerFactory.getLogger(RoleAction.class).info("======删除一个岗位======");
 		return "tolist";
 	}
 
@@ -70,10 +75,10 @@ public class RoleAction extends ActionSupport implements ModelDriven<Role>{
 	 * @throws
 	 */
 	public String add() throws Exception {
-		//1.添加对象
-		//2.保存到数据库
+		// 1.添加对象
+		// 2.保存到数据库
 		roleService.save(model);
-		logger.info("======添加岗位======");
+		LoggerFactory.getLogger(RoleAction.class).info("======添加一个岗位======");
 		return "tolist";
 	}
 
@@ -88,9 +93,13 @@ public class RoleAction extends ActionSupport implements ModelDriven<Role>{
 	 */
 	public String edit() throws Exception {
 		Role role = roleService.getById(model.getId());
-		role.setDescription(model.getDescription());
-		role.setName(model.getName());
-		roleService.update(role);
+		if (role != null) {
+			role.setDescription(model.getDescription());
+			role.setName(model.getName());
+			roleService.update(role);
+			LoggerFactory.getLogger(RoleAction.class).info("======进行修改岗位======");
+		}else
+			LoggerFactory.getLogger(RoleAction.class).info("======不进行修改岗位======");
 		return "tolist";
 	}
 
@@ -104,7 +113,7 @@ public class RoleAction extends ActionSupport implements ModelDriven<Role>{
 	 * @throws
 	 */
 	public String addUI() throws Exception {
-		logger.info("======重定向到添加界面======");
+		LoggerFactory.getLogger(RoleAction.class).info("======重定向到添加界面======");
 		return "saveUI";
 	}
 
@@ -118,9 +127,10 @@ public class RoleAction extends ActionSupport implements ModelDriven<Role>{
 	 * @throws
 	 */
 	public String editUI() throws Exception {
-		Role role  = roleService.getById(model.getId());
-		//将role放在栈顶，用于回显
+		Role role = roleService.getById(model.getId());
+		// 将role放在栈顶，用于回显
 		ActionContext.getContext().getValueStack().push(role);
+		LoggerFactory.getLogger(RoleAction.class).info("======重定向到修改界面======");
 		return "saveUI";
 	}
 }

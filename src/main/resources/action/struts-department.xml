@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<!-- 配置部门管理 -->
+<struts>
+    <package name="department" namespace="/" extends="struts-default">
+        <action name="department_*" class="departmentAction" method="{1}">
+            <result name="tolist" type="redirectAction">department_list</result>
+        	<result name="saveUI">/WEB-INF/run/jsp/departmentAction/saveUI.jsp</result>
+        	<result name="list">/WEB-INF/run/jsp/departmentAction/list.jsp</result>
+        </action>
+    </package>
+</struts>
