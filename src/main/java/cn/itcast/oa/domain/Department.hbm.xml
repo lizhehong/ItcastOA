@@ -31,7 +31,7 @@
         
         
         <!-- childrens属性，表示department与下级的关系是一对多的关系 -->
-        <set name="childrens">
+        <set name="childrens" cascade="delete">
 			<key column="parentId"></key>
 			<one-to-many class="Department"/>
 		</set>
