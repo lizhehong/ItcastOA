@@ -26,7 +26,7 @@ public interface BaseDao<T> {
 	/**
 	 * aim:根据id查找实体
 	 * @param id
-	 * @return
+	 * @return id为空则返回null不查数据库
 	 */
 	public T getById(Long id);
 	/**

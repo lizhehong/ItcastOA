@@ -66,8 +66,10 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 
 	@SuppressWarnings("unchecked")
 	public T getById(Long id) {
-
-		return (T) hibernateTemplate.get(clazz, id);
+		if(id!=null)
+			return (T) hibernateTemplate.get(clazz, id);
+		else
+			return null;
 	}
 
 	public List<T> findAll() {
