@@ -105,7 +105,7 @@ public class RoleAction extends ActionSupport implements ModelDriven<Role>{
 	 */
 	public String addUI() throws Exception {
 		logger.info("======重定向到添加界面======");
-		return "addUI";
+		return "saveUI";
 	}
 
 	/**
@@ -121,6 +121,6 @@ public class RoleAction extends ActionSupport implements ModelDriven<Role>{
 		Role role  = roleService.getById(model.getId());
 		//将role放在栈顶，用于回显
 		ActionContext.getContext().getValueStack().push(role);
-		return "editUI";
+		return "saveUI";
 	}
 }

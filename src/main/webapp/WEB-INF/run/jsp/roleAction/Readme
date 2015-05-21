@@ -1,0 +1,4 @@
+editUI和addUI 是一样的，不同之处就是editUI需要传给controller
+所对应的id，而addUI不需要传id，
+所以最新的只有list.jsp和saveUI界面，省去了一个界面
+在saveUI中，利用有无id来判断是editUI的请求还是addUI的请求
