@@ -109,7 +109,14 @@ public class DepartmentAction extends ActionSupport implements
 	 * @throws
 	 */
 	public String del() throws Exception {
-		departmentService.del(model.getId());
+		Long id = model.getId();
+		//通过得到删除的部门Id得到父部门
+		Department department = departmentService.getById(id).getParent();
+		//判断父部门是否存在
+		if(department!=null)
+			//存在父部们
+			parentId = department.getId();
+		departmentService.del(id);
 		LoggerFactory.getLogger(DepartmentAction.class).info(
 				"======删除一个部门======");
 		return "tolist";
