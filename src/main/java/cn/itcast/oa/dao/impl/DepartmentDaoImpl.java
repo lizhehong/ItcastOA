@@ -6,7 +6,22 @@ import org.springframework.stereotype.Repository;
 
 import cn.itcast.oa.dao.DepartmentDao;
 import cn.itcast.oa.domain.Department;
+
 @Repository("departmentDao")
-public class DepartmentDaoImpl extends BaseDaoImpl<Department>  implements DepartmentDao {
+@SuppressWarnings("unchecked")
+public class DepartmentDaoImpl extends BaseDaoImpl<Department> implements
+		DepartmentDao {
+
+	public List<Department> findTopList() {
+
+		return hibernateTemplate
+				.find("FROM Department d WHERE d.parent IS null");
+	}
+
+	public List<Department> findChildrenList(Long parentId) {
+
+		return hibernateTemplate.find(
+				"FROM Department d WHERE d.parent.id = ?", parentId);
+	}
 
 }

@@ -1,6 +1,8 @@
 package cn.itcast.oa.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -34,6 +36,15 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	public void update(Department department) {
 		departmentDao.update(department);
+	}
+
+	public List<Department> findTopList() {
+		return departmentDao.findTopList();
+	}
+
+	public List<Department> findChildrenList(Long parentId) {
+		
+		return departmentDao.findChildrenList(parentId);
 	}
 
 }

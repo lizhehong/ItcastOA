@@ -26,12 +26,12 @@
         
         
         <!-- parent属性，表示department与上级 是多对一的关系 -->
-        <many-to-one name="parent" class="Department" column="parentId"></many-to-one>
+        <many-to-one name="parent" class="Department" column="parentId" lazy="false"></many-to-one>
         
         
         
         <!-- childrens属性，表示department与下级的关系是一对多的关系 -->
-        <set name="childrens" cascade="delete">
+        <set name="childrens" cascade="delete" lazy="false">
 			<key column="parentId"></key>
 			<one-to-many class="Department"/>
 		</set>

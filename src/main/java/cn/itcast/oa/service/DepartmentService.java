@@ -51,5 +51,24 @@ public interface DepartmentService {
 	* @throws
 	 */
 	void update(Department department);
+	/**
+	 * 
+	* @Title: findTopList 
+	* @Description: 查询没有子部门的部门列表 
+	* @param @return    设定文件 
+	* @return List<Department>    返回类型 
+	* @throws
+	 */
+	List<Department> findTopList();
+	/**
+	 * 
+	* @Title: findChildrenList 
+	* @Description: 通过ID查询子部门列表
+	* @param @param parentId
+	* @param @return    设定文件 
+	* @return List<Department>    返回类型 
+	* @throws
+	 */
+	List<Department> findChildrenList(Long parentId);
 
 }

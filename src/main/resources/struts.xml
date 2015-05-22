@@ -5,8 +5,6 @@
 
 <struts>
 
-	<!-- 配置为开发模式 developer mode -->
-	<constant name="struts.devMode" value="true" />
 	<!-- action扩展名改为.do -->
 	<constant name="struts.action.extension" value="do" />
 	<!-- theme set sample -->
