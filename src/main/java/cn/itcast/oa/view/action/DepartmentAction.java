@@ -21,13 +21,12 @@ public class DepartmentAction extends ActionSupport implements
 		ModelDriven<Department> {
 	@Resource
 	private DepartmentService departmentService;
-	
+
 	private Department model = new Department();
 	/**
-	 * 作用: 1.对于list.jsp页面 显示界面的总入口变量，用于判断显示无子部门的列表还是有对应子部门的列表 影响因素 1.add()函数
-	 * 暂时没有传parentId 2.edit()函数 暂时没有传parentId 3.具体界面的具体部门href 会传过来parentId
-	 * 4.返回上一级的按钮 2.对于saveUI.jsp页面 默认选项框的值 影响因素 1.addUI()函数 "新建按钮传过来的"
-	 * 
+	 * 作用：
+	 * 	新建按钮传的参数
+	 *  具体部门id，用于显示子部门
 	 */
 	private Long parentId;
 
@@ -38,6 +37,7 @@ public class DepartmentAction extends ActionSupport implements
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
 	}
+
 	public Department getModel() {
 		LoggerFactory.getLogger(DepartmentAction.class).info(
 				"======得到部门模型======");
@@ -47,7 +47,7 @@ public class DepartmentAction extends ActionSupport implements
 	/**
 	 * 
 	 * @Title: list
-	 * @Description: 只列出一层(同级的)部门数据，默认显示最顶级的部门列表
+	 * @Description: 只列出一层(同级的)部门数据，默认显示最顶级的部门列表 parentId 决定显示的列表
 	 * @param @return
 	 * @param @throws Exception 设定文件
 	 * @return String 返回类型
@@ -55,45 +55,16 @@ public class DepartmentAction extends ActionSupport implements
 	 */
 	public String list() throws Exception {
 		List<Department> departmentList = null;
-		// 区分list.jsp显示的问题
-		if (parentId == null) {// 默认显示顶级部门列表 在list.jsp中 只有一种情况
-								// 其实是利用第一次不可能传值parentId来作为判断依据的
+		if (parentId == null) {
+			// 默认显示顶级部门列表
 			departmentList = departmentService.findTopList();
-			LoggerFactory.getLogger(DepartmentAction.class).info(
-					"======得到无父部门的部门列表======");
 		} else {
-			// 浏览器第二次请求开始
-			// 显示指定部门的子部门列表 在list.jsp中 可以通过parentId的具体指 访问任何一级的子列表
+			// 显示指定部门的子部门列表
 			departmentList = departmentService.findChildrenList(parentId);
-			// 用于"返回上一级"按钮的传递参数
-			Long callUpLevelValue = null;
-			if (departmentList.size() != 0) {
-				// 存在子部门
-				LoggerFactory.getLogger(DepartmentAction.class).info(
-						"======得到Name="
-								+ departmentList.get(0).getParent().getName()
-								+ "的子部门列表======");
-				// 存储按下的的部门名,的父级部门
-				Department department = departmentList.get(0).getParent()
-						.getParent();
-				// 存在父类
-				if (department != null)
-					callUpLevelValue = department.getId();
-			} else {
-				// 不存在子部门
-				// 存储按下的的部门名,的父级部门
-				Department department = departmentService.getById(parentId)
-						.getParent();
-				// 存在父类
-				if (department != null)
-					callUpLevelValue = department.getId();
-				LoggerFactory.getLogger(DepartmentAction.class).info(
-						"======得到无子部门的部门列表======");
-			}
-			// 用于"返回上一级"按钮传参数的设置
-			ActionContext.getContext().put("callUpLevel", callUpLevelValue);
-			// 补充作为"新建按钮的传递参数"，具体按了哪个部门的id
-			ActionContext.getContext().put("parentId", parentId);
+			//相对于要按下的部门的父部门
+			Department parent = departmentService.getById(parentId);
+			//传递 相对于要按下的部门的父部门
+			ActionContext.getContext().put("parent", parent);
 		}
 		ActionContext.getContext().put("departmentList", departmentList);
 		return "list";
@@ -109,14 +80,7 @@ public class DepartmentAction extends ActionSupport implements
 	 * @throws
 	 */
 	public String del() throws Exception {
-		Long id = model.getId();
-		//通过得到删除的部门Id得到父部门
-		Department department = departmentService.getById(id).getParent();
-		//判断父部门是否存在
-		if(department!=null)
-			//存在父部们
-			parentId = department.getId();
-		departmentService.del(id);
+		departmentService.del(model.getId());
 		LoggerFactory.getLogger(DepartmentAction.class).info(
 				"======删除一个部门======");
 		return "tolist";
@@ -133,8 +97,10 @@ public class DepartmentAction extends ActionSupport implements
 	 */
 	public String add() throws Exception {
 		// 处理上级部门
-		Department department = departmentService.getById(parentId);
-		model.setParent(department);
+		Department parent = departmentService.getById(parentId);
+		model.setParent(parent);
+
+		// 保存到数据库
 		departmentService.save(model);
 		LoggerFactory.getLogger(DepartmentAction.class).info(
 				"======添加一个部门======");
@@ -151,27 +117,18 @@ public class DepartmentAction extends ActionSupport implements
 	 * @throws
 	 */
 	public String edit() throws Exception {
-		// 1.从数据库取出要修改的原始数据
+		// 1，从数据库中取出要修改的原始数据
 		Department department = departmentService.getById(model.getId());
-		// 页面上的选择框会返回父部门的id，也就是对应部门Department的唯一标识符id，所以查找对应的部门
-		Department parentDepartment = departmentService.getById(parentId);
-		// 判断此部门是否存在
-		if (department != null) {
-			// 此部门存在
-			// 2.填充父部门到此部门
-			department.setParent(parentDepartment);
-			// 3.设置修改的属性
-			department.setDescription(model.getDescription());
-			department.setName(model.getName());
 
-			// 4.更新到数据库
-			departmentService.update(department);
-			LoggerFactory.getLogger(DepartmentAction.class).info(
-					"======进行部门修改======");
-		} else
-			// 此部门不存在
-			LoggerFactory.getLogger(DepartmentAction.class).info(
-					"======不进行部门修改======");
+		// 2，设置要修改的属性
+		department.setName(model.getName());
+		department.setDescription(model.getDescription());
+		// >> 处理上级部门
+		Department parent = departmentService.getById(parentId);
+		department.setParent(parent);
+
+		// 3，更新到数据库
+		departmentService.update(department);
 		return "tolist";
 	}
 

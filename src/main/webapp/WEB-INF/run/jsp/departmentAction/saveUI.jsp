@@ -49,6 +49,7 @@
 					<table cellpadding="0" cellspacing="0" class="mainForm">
 						<tr>
 							<td width="100">上级部门</td>
+							<!-- 记得这也是表单的内容  所以edit()和add()都有获得parentId的值-->
 							<td><s:select name="parentId" cssclass="SelectStyle"
 									listKey="id" listValue="name" list="departmentList"
 									headerKey="" headerValue="==请选择部门==">
