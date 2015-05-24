@@ -18,12 +18,10 @@ import com.opensymphony.xwork2.ModelDriven;
 
 @Controller
 @Scope("prototype")
-public class DepartmentAction extends ActionSupport implements
-		ModelDriven<Department> {
-	@Resource
-	private DepartmentService departmentService;
+public class DepartmentAction extends BaseAction<Department> {
+	
 
-	private Department model = new Department();
+	
 	/**
 	 * 作用：
 	 * 	新建按钮传的参数
@@ -39,11 +37,7 @@ public class DepartmentAction extends ActionSupport implements
 		this.parentId = parentId;
 	}
 
-	public Department getModel() {
-		LoggerFactory.getLogger(DepartmentAction.class).info(
-				"======得到部门模型======");
-		return model;
-	}
+	
 
 	/**
 	 * 
@@ -143,9 +137,9 @@ public class DepartmentAction extends ActionSupport implements
 	 * @throws
 	 */
 	public String addUI() throws Exception {
-		// 找到所有的部门
+		// 找到所有的顶层部门
 		List<Department> topList = departmentService.findTopList();
-		List<Department> departmentList = DepartmentUtil.getAllDepartmentList(topList);
+		List<Department> departmentList = DepartmentUtil.getAllDepartmentList(topList,null);
 		// 作为上级选择列表的值
 		ActionContext.getContext().put("departmentList", departmentList);
 		LoggerFactory.getLogger(DepartmentAction.class).info(
@@ -163,10 +157,8 @@ public class DepartmentAction extends ActionSupport implements
 	 * @throws
 	 */
 	public String editUI() throws Exception {
-		// 用于部门选择框的内容而查看所有部门
-		List<Department> topList = departmentService.findTopList();
-		List<Department> departmentList = DepartmentUtil.getAllDepartmentList(topList);
-		// 根据选择的部门id查询数据库对应的部门
+		
+		// 根据选择的		当前部门id		查询数据库对应的部门
 		Department department = departmentService.getById(model.getId());
 		// 准备回显得数据
 		ActionContext.getContext().getValueStack().push(department);
@@ -175,7 +167,12 @@ public class DepartmentAction extends ActionSupport implements
 			// 用于回显选项框的默认值
 			this.parentId = department.getParent().getId();
 		}
-
+		
+		
+		// 用于部门选择框的内容而查看所有顶层部门
+		List<Department> topList = departmentService.findTopList();
+		//通过顶层部门，找到树状结构的所有部门
+		List<Department> departmentList = DepartmentUtil.getAllDepartmentList(topList,department);
 		// 用于部门选择框的内容 填充
 		ActionContext.getContext().put("departmentList", departmentList);
 		LoggerFactory.getLogger(DepartmentAction.class).info(

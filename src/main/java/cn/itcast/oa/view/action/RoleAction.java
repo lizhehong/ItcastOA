@@ -18,19 +18,11 @@ import com.opensymphony.xwork2.ModelDriven;
 
 @Controller
 @Scope("prototype")
-public class RoleAction extends ActionSupport implements ModelDriven<Role> {
-	@Resource
-	private RoleService roleService;
-	private Role model = new Role();
+public class RoleAction extends BaseAction<Role>  {
 
 	public RoleAction() {
 		LoggerFactory.getLogger(RoleAction.class).info(
 				"====== RoleAction constructor OK  ======");
-	}
-
-	public Role getModel() {
-		LoggerFactory.getLogger(RoleAction.class).info("======得到模型======");
-		return this.model;
 	}
 
 	/**

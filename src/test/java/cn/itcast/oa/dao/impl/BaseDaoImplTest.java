@@ -19,5 +19,9 @@ public class BaseDaoImplTest {
 		new RoleDaoImpl();
 		
 	}
+	@Test
+	public void testDelete() {
+		new DepartmentDaoImpl().delete(37L);
+	}
 
 }

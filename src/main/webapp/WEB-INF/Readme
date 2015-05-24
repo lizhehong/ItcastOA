@@ -36,7 +36,7 @@ web.xml配置里添加
 </filter-mapping>
 
  
-
+方法一
 如果在交给spring 管理的情况下，在beans.xml 里的配置
 
  <bean id="txManager"
@@ -60,3 +60,5 @@ web.xml配置里添加
    <tx:method name="delete*" propagation="REQUIRED"/>
   </tx:attributes>
  </tx:advice>
+ 方法二
+ 或者在需要事务的service中 加入@Transaction 因为默认值read-only="false" 是这个 就解决了

@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import cn.itcast.oa.dao.DepartmentDao;
 import cn.itcast.oa.dao.impl.BaseDaoImpl;
@@ -21,11 +22,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 	public List<Department> findAll() {
 		return departmentDao.findAll();
 	}
-
+	@Transactional
 	public void del(Long id) {
 		departmentDao.delete(id);
 	}
-
+	@Transactional
 	public void save(Department department) {
 		departmentDao.save(department);
 	}
@@ -33,7 +34,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	public Department getById(Long id) {
 		return departmentDao.getById(id);
 	}
-
+	@Transactional
 	public void update(Department department) {
 		departmentDao.update(department);
 	}
