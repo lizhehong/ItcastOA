@@ -1,0 +1,62 @@
+Write operations are not allowed in read-only mode 只读模式下(FlushMode.NEVER/MANUAL)写操作不允
+org.springframework.dao.InvalidDataAccessApiUsageException: Write operations are not allowed in read-only mode (FlushMode.NEVER/MANUAL): Turn your Session into FlushMode.COMMIT/AUTO or remove 'readOnly' marker from transaction definition.
+
+问题：只读模式下(FlushMode.NEVER/MANUAL)写操作不被允许：把你的Session改成FlushMode.COMMIT/AUTO或者清除事务定义中的readOnly标记。
+
+ 
+
+错误原因: OpenSessionInViewFilter在getSession的时候,会把获取回来的session的flush mode 设为FlushMode.NEVER。然后把该sessionFactory绑定到TransactionSynchronizationManager，使request的整个过程都使用同一个session，在请求过后再接除该sessionFactory的绑定，最后closeSessionIfNecessary根据该session是否已和transaction绑定来决定是否关闭session。在这个过程中，若HibernateTemplate 发现自当前session有不是readOnly的transaction，就会获取到FlushMode.AUTO Session，使方法拥有写权限。也即是，如果有不是readOnly的transaction就可以由Flush.NEVER转为Flush.AUTO,拥有insert,update,delete操作权限，如果没有transaction，并且没有另外人为地设flush model的话，则doFilter的整个过程都是Flush.NEVER。所以受transaction(声明式的事务)保护的方法有写权限，没受保护的则没有。
+
+解决方法:
+web.xml配置里添加
+<filter>
+   <filter-name>OpenSessionInViewFilter</filter-name>
+   <filter-class>
+    org.springframework.orm.hibernate3.support.OpenSessionInViewFilter
+   </filter-class>
+   <init-param>
+    <param-name>sessionFactoryBeanName</param-name>
+    <param-value>sessionFactory</param-value>
+   </init-param>
+   <init-param>
+            <param-name>singleSession</param-name>
+            <param-value>true</param-value>           
+        </init-param>
+        <init-param>
+        <param-name> flushMode </param-name>
+   <param-value>AUTO </param-value>        
+        </init-param>
+</filter>
+  //   。。。。
+
+
+<filter-mapping>
+   <filter-name>OpenSessionInViewFilter</filter-name>
+   <url-pattern>/*</url-pattern>
+</filter-mapping>
+
+ 
+
+如果在交给spring 管理的情况下，在beans.xml 里的配置
+
+ <bean id="txManager"
+  class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+  <property name="sessionFactory" ref="sessionFactory" />
+ </bean>
+
+ <aop:config>
+  <aop:pointcut id="bussinessService"
+   expression="execution(* com.fan.service.base.*.*(..))" />
+  <aop:advisor pointcut-ref="bussinessService"
+   advice-ref="txAdvice" />
+ </aop:config>
+
+ <tx:advice id="txAdvice" transaction-manager="txManager">
+  <tx:attributes>
+   <tx:method name="get*" read-only="false" propagation="NOT_SUPPORTED"/>
+   <tx:method name="find*" read-only="false" propagation="NOT_SUPPORTED"/>
+   <tx:method name="save*" propagation="REQUIRED"/> // 如果不把save update delete都配置上，
+   <tx:method name="update*" propagation="REQUIRED"/> //这些操作会无效
+   <tx:method name="delete*" propagation="REQUIRED"/>
+  </tx:attributes>
+ </tx:advice>

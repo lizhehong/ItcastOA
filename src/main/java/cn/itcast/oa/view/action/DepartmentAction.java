@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 
 import cn.itcast.oa.domain.Department;
 import cn.itcast.oa.service.DepartmentService;
+import cn.itcast.oa.util.DepartmentUtil;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -135,7 +136,7 @@ public class DepartmentAction extends ActionSupport implements
 	/**
 	 * 
 	 * @Title: addUI
-	 * @Description: 重定向到添加部门的页面
+	 * @Description: 重定向到添加部门的页面 1.开始设计时，是返回所有部门，这是为了先有功能，然后再后期设计再加上返回树状结构
 	 * @param @return
 	 * @param @throws Exception 设定文件
 	 * @return String 返回类型
@@ -143,9 +144,8 @@ public class DepartmentAction extends ActionSupport implements
 	 */
 	public String addUI() throws Exception {
 		// 找到所有的部门
-		List<Department> departmentList = departmentService.findAll();
-		// 获取"新建"按钮的对应父类的id值,然后放于选项框的默认值
-		// ActionContext.getContext().put("parentId", parentId);
+		List<Department> topList = departmentService.findTopList();
+		List<Department> departmentList = DepartmentUtil.getAllDepartmentList(topList);
 		// 作为上级选择列表的值
 		ActionContext.getContext().put("departmentList", departmentList);
 		LoggerFactory.getLogger(DepartmentAction.class).info(
@@ -164,7 +164,8 @@ public class DepartmentAction extends ActionSupport implements
 	 */
 	public String editUI() throws Exception {
 		// 用于部门选择框的内容而查看所有部门
-		List<Department> departmentList = departmentService.findAll();
+		List<Department> topList = departmentService.findTopList();
+		List<Department> departmentList = DepartmentUtil.getAllDepartmentList(topList);
 		// 根据选择的部门id查询数据库对应的部门
 		Department department = departmentService.getById(model.getId());
 		// 准备回显得数据
