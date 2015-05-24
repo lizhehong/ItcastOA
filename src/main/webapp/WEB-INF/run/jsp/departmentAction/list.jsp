@@ -1,11 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
 <html>
 <head>
 <title>部门列表</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-<%@ include file="/WEB-INF/run/jsp/public/header.jspf" %>
+<script language="javascript"
+	src="${pageContext.request.contextPath}/script/jquery.js"></script>
+<script language="javascript"
+	src="${pageContext.request.contextPath}/script/pageCommon.js"
+	charset="utf-8"></script>
+<script language="javascript"
+	src="${pageContext.request.contextPath}/script/PageUtils.js"
+	charset="utf-8"></script>
+<link type="text/css" rel="stylesheet"
+	href="${pageContext.request.contextPath}/style/blue/pageCommon.css" />
+<script type="text/javascript">
+	
+</script>
 </head>
 <body>
 
@@ -41,12 +53,11 @@
 
 				<s:iterator value="departmentList">
 					<tr class="TableDetail1 template">
-						<!-- 用来区分界面显示 无子部门列表还是由子部门列表的  -->
+					<!-- 用来区分界面显示 无子部门列表还是由子部门列表的  -->
 						<td><s:a action="department_list?parentId=%{id}">${name}&nbsp;</s:a></td>
 						<td>${parent.name}&nbsp;</td>
 						<td>${description}&nbsp;</td>
-						<td><s:a
-								action="department_del?id=%{id}&parentId=%{parent.id}"
+						<td><s:a action="department_del?id=%{id}&parentId=%{parent.id}"
 								onclick="return window.confirm('这将删除所有的下级部门，您确定要删除吗？')">删除</s:a>
 							<s:a action="department_editUI?id=%{id}">修改</s:a></td>
 					</tr>
@@ -58,14 +69,15 @@
 		<!-- 其他功能超链接 -->
 		<div id="TableTail">
 			<div id="TableTail_inside">
-				<!-- 新建按钮 -->
+			<!-- 新建按钮 -->
 				<s:a action="department_addUI">
-					<s:param name="parentId" value="%{ #parent.id }"></s:param>
+						<s:param name="parentId" value="%{ #parent.id }"></s:param>
 					<img
 						src="${pageContext.request.contextPath}/style/images/createNew.png" />
 				</s:a>
 				<s:if test="%{#parent != null}">
-					<s:a action="department_list?parentId=%{#parent.parent.id}">返回上一级</s:a>
+					<s:a
+						action="department_list?parentId=%{#parent.parent.id}">返回上一级</s:a>
 				</s:if>
 			</div>
 		</div>
