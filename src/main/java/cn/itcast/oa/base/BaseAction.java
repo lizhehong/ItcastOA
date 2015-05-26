@@ -1,4 +1,4 @@
-package cn.itcast.oa.view.action;
+package cn.itcast.oa.base;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -8,10 +8,14 @@ import javax.management.RuntimeErrorException;
 
 import org.apache.struts2.views.jsp.ParamTag;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import cn.itcast.oa.domain.Department;
 import cn.itcast.oa.service.DepartmentService;
 import cn.itcast.oa.service.RoleService;
+import cn.itcast.oa.service.UserService;
+import cn.itcast.oa.view.action.DepartmentAction;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -25,6 +29,8 @@ public class BaseAction<T> extends ActionSupport implements
 	@Resource
 	protected DepartmentService departmentService;
 
+	@Resource
+	protected UserService userService;
 	// ====================== 对ModelDriven的支持 =====================//
 
 	protected T model;

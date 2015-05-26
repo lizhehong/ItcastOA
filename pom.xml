@@ -82,6 +82,12 @@
 			<artifactId>struts2-core</artifactId>
 			<version>2.3.20</version>
 		</dependency>
+		<!-- 编码包 -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.10</version>
+		</dependency>
 
 
 	</dependencies>

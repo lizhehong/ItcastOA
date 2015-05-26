@@ -9,13 +9,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import cn.itcast.oa.base.BaseAction;
 import cn.itcast.oa.domain.Role;
 import cn.itcast.oa.service.RoleService;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-
 @Controller
 @Scope("prototype")
 public class RoleAction extends BaseAction<Role>  {

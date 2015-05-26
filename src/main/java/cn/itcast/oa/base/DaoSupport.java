@@ -1,13 +1,13 @@
-package cn.itcast.oa.dao;
+package cn.itcast.oa.base;
 
 import java.util.List;
 /**
- * aim:公共接口,提供给了其他接口的共同的方法
+ * condition：通过baseDao改造而来
  * @author lizhehong
  *
  * @param <T>
  */
-public interface BaseDao<T> {
+public interface DaoSupport<T> {
 	/**
 	 * aim:保存实体
 	 * @param entity
@@ -17,7 +17,7 @@ public interface BaseDao<T> {
 	 * aim:删除实体
 	 * @param id
 	 */
-	public void delete(Long id);
+	public void del(Long id);
 	/**
 	 * aim:更新实体
 	 * @param entity

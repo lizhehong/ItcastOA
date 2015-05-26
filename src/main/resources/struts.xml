@@ -15,4 +15,6 @@
 	<include file="action/struts-role.xml"></include>
 	<!-- 用于department Action -->
 	<include file="action/struts-department.xml"></include>
+	<!-- 用户User Action -->
+	<include file="action/struts-user.xml"></include>
 </struts>

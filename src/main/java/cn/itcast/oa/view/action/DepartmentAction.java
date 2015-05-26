@@ -2,30 +2,21 @@ package cn.itcast.oa.view.action;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import cn.itcast.oa.base.BaseAction;
 import cn.itcast.oa.domain.Department;
-import cn.itcast.oa.service.DepartmentService;
 import cn.itcast.oa.util.DepartmentUtil;
 
 import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
-
 @Controller
 @Scope("prototype")
 public class DepartmentAction extends BaseAction<Department> {
-	
 
-	
 	/**
-	 * 作用：
-	 * 	新建按钮传的参数
-	 *  具体部门id，用于显示子部门
+	 * 作用： 新建按钮传的参数 具体部门id，用于显示子部门
 	 */
 	private Long parentId;
 
@@ -36,8 +27,6 @@ public class DepartmentAction extends BaseAction<Department> {
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
 	}
-
-	
 
 	/**
 	 * 
@@ -56,9 +45,9 @@ public class DepartmentAction extends BaseAction<Department> {
 		} else {
 			// 显示指定部门的子部门列表
 			departmentList = departmentService.findChildrenList(parentId);
-			//相对于要按下的部门的父部门
+			// 相对于要按下的部门的父部门
 			Department parent = departmentService.getById(parentId);
-			//传递 相对于要按下的部门的父部门
+			// 传递 相对于要按下的部门的父部门
 			ActionContext.getContext().put("parent", parent);
 		}
 		ActionContext.getContext().put("departmentList", departmentList);
@@ -139,7 +128,8 @@ public class DepartmentAction extends BaseAction<Department> {
 	public String addUI() throws Exception {
 		// 找到所有的顶层部门
 		List<Department> topList = departmentService.findTopList();
-		List<Department> departmentList = DepartmentUtil.getAllDepartmentList(topList,null);
+		List<Department> departmentList = DepartmentUtil.getAllDepartmentList(
+				topList, null);
 		// 作为上级选择列表的值
 		ActionContext.getContext().put("departmentList", departmentList);
 		LoggerFactory.getLogger(DepartmentAction.class).info(
@@ -157,8 +147,8 @@ public class DepartmentAction extends BaseAction<Department> {
 	 * @throws
 	 */
 	public String editUI() throws Exception {
-		
-		// 根据选择的		当前部门id		查询数据库对应的部门
+
+		// 根据选择的 当前部门id 查询数据库对应的部门
 		Department department = departmentService.getById(model.getId());
 		// 准备回显得数据
 		ActionContext.getContext().getValueStack().push(department);
@@ -167,12 +157,12 @@ public class DepartmentAction extends BaseAction<Department> {
 			// 用于回显选项框的默认值
 			this.parentId = department.getParent().getId();
 		}
-		
-		
+
 		// 用于部门选择框的内容而查看所有顶层部门
 		List<Department> topList = departmentService.findTopList();
-		//通过顶层部门，找到树状结构的所有部门
-		List<Department> departmentList = DepartmentUtil.getAllDepartmentList(topList,department);
+		// 通过顶层部门，找到树状结构的所有部门
+		List<Department> departmentList = DepartmentUtil.getAllDepartmentList(
+				topList, department);
 		// 用于部门选择框的内容 填充
 		ActionContext.getContext().put("departmentList", departmentList);
 		LoggerFactory.getLogger(DepartmentAction.class).info(
