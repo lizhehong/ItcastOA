@@ -28,7 +28,10 @@ public class Role {
 	 * 岗位对应的就职者 多个
 	 */
 	private Set<User> users = new HashSet<User>(0);
-
+	/**
+	 * 岗位对应多个权限
+	 */
+	private Set<Privilege> privileges;
 	public Long getId() {
 		return id;
 	}
@@ -59,6 +62,14 @@ public class Role {
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+
+	public Set<Privilege> getPrivileges() {
+		return privileges;
+	}
+
+	public void setPrivileges(Set<Privilege> privileges) {
+		this.privileges = privileges;
 	}
 
 }
