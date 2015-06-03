@@ -1,18 +1,14 @@
 package cn.itcast.oa.base;
 
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 import javax.annotation.Resource;
-import javax.management.RuntimeErrorException;
 
-import org.apache.struts2.views.jsp.ParamTag;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
 
-import cn.itcast.oa.domain.Department;
+
 import cn.itcast.oa.service.DepartmentService;
+import cn.itcast.oa.service.PrivilegeService;
 import cn.itcast.oa.service.RoleService;
 import cn.itcast.oa.service.UserService;
 import cn.itcast.oa.view.action.DepartmentAction;
@@ -31,6 +27,8 @@ public class BaseAction<T> extends ActionSupport implements
 
 	@Resource
 	protected UserService userService;
+	@Resource
+	protected PrivilegeService privilegeService;
 	// ====================== 对ModelDriven的支持 =====================//
 
 	protected T model;

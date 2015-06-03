@@ -1,24 +1,26 @@
 package cn.itcast.oa.view.action;
 
+import java.util.HashSet;
 import java.util.List;
 
-import javax.annotation.Resource;
-
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import cn.itcast.oa.base.BaseAction;
+import cn.itcast.oa.domain.Privilege;
 import cn.itcast.oa.domain.Role;
-import cn.itcast.oa.service.RoleService;
 
 import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
+
 @Controller
 @Scope("prototype")
-public class RoleAction extends BaseAction<Role>  {
+public class RoleAction extends BaseAction<Role> {
+
+	/**
+	 * 使用数组的Long数组的形式接收前台的参数
+	 */
+	private Long[] privilegeIds;
 
 	public RoleAction() {
 		LoggerFactory.getLogger(RoleAction.class).info(
@@ -89,9 +91,34 @@ public class RoleAction extends BaseAction<Role>  {
 			role.setDescription(model.getDescription());
 			role.setName(model.getName());
 			roleService.update(role);
-			LoggerFactory.getLogger(RoleAction.class).info("======进行修改岗位======");
-		}else
-			LoggerFactory.getLogger(RoleAction.class).info("======不进行修改岗位======");
+			LoggerFactory.getLogger(RoleAction.class)
+					.info("======进行修改岗位======");
+		} else
+			LoggerFactory.getLogger(RoleAction.class).info(
+					"======不进行修改岗位======");
+		return "tolist";
+	}
+
+	/**
+	 * 
+	 * @Title: setPrivilege
+	 * @Description: 为岗位设置权限
+	 * @param @return
+	 * @param @throws Exception 设定文件
+	 * @return String 返回类型
+	 * @throws
+	 */
+	public String setPrivilege() throws Exception {
+		Role role = roleService.getById(model.getId());
+		List<Privilege> privilegeList = privilegeService.getByIds(privilegeIds);
+		if (role != null) {
+			role.setPrivileges(new HashSet<Privilege>(privilegeList));
+			roleService.update(role);
+			LoggerFactory.getLogger(RoleAction.class).info(
+					"======进行修改岗位权限======");
+		} else
+			LoggerFactory.getLogger(RoleAction.class).info(
+					"======不进行修改岗位权限======");
 		return "tolist";
 	}
 
@@ -125,4 +152,44 @@ public class RoleAction extends BaseAction<Role>  {
 		LoggerFactory.getLogger(RoleAction.class).info("======重定向到修改界面======");
 		return "saveUI";
 	}
+
+	/**
+	 * 
+	 * @Title: setPrivilegeUI
+	 * @Description: 为岗位设置权限的UI界面
+	 * @param @return
+	 * @param @throws Exception 设定文件
+	 * @return String 返回类型
+	 * @throws
+	 */
+	public String setPrivilegeUI() throws Exception {
+		//准备数据
+		List<Privilege> topPrivilegeList = privilegeService.findTopList();
+		ActionContext.getContext().put("topPrivilegeList", topPrivilegeList);
+		// 根据界面传过来的id值来进行判断是哪个岗位
+		Role role = roleService.getById(model.getId());
+		// 将role放在栈顶，用于回显
+		ActionContext.getContext().getValueStack().push(role);
+
+		// 迭代当前岗位的所有权限,用于前面板的显示
+		privilegeIds = new Long[role.getPrivileges().size()];
+		int index = 0;
+		for (Privilege p : role.getPrivileges()) {
+			privilegeIds[index++] = p.getId();
+		}
+
+		// 记录日志
+		LoggerFactory.getLogger(RoleAction.class).info(
+				"======重定向到修改岗位权限界面======");
+		return "setPrivilegeUI";
+	}
+
+	public Long[] getPrivilegeIds() {
+		return privilegeIds;
+	}
+
+	public void setPrivilegeIds(Long[] privilegeIds) {
+		this.privilegeIds = privilegeIds;
+	}
+
 }

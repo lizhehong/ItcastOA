@@ -17,8 +17,9 @@
    		</set>
    		<!-- parent属性，表达了我与Privilege上级多对一的关系 -->
    		<many-to-one name="parent" class="Privilege" column="parentId"></many-to-one>
-   		<!-- children属性，表达了我与Privilege下级一对多的关系 -->
-   		<set name="children">
+   		<!-- children属性，表达了我与Privilege下级一对多的关系 
+   			order-by="id" 按照id排序-->
+   		<set name="children" order-by="id">
    			<key column="parentId"></key>
    			<one-to-many class="Privilege" />
    		</set>
