@@ -23,7 +23,8 @@
 
 
 		<!-- role属性，表示了user与role多对多的关系 -->
-		<set name="roles" table="itcast_user_role">
+		<!-- 这里没有使用懒加载是为了在初始化web的时候能迭代出roles -->
+		<set name="roles" table="itcast_user_role" lazy="false">
 			<key column="userId"></key>
 			<many-to-many class="Role" column="roleId"></many-to-many>
 		</set>

@@ -5,7 +5,7 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-
+	<!-- 配置Spring的用于初始化ApplicationContext对象的监听器 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
@@ -13,6 +13,12 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:applicationContext*.xml</param-value>
 	</context-param>
+
+	<!-- 配置自己的用于做初始化工作的监听器，一定要配置到spring的ContextLoaderListener的后面，因为要用到spring容器对象-->
+	<listener>
+		<listener-class>cn.itcast.oa.util.OAInitListenter</listener-class>
+	</listener>
+
 
 	<!-- 配置spring的openSessionInViewFilter以懒加载异常的的问题 -->
 	<filter>

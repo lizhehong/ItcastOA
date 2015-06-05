@@ -17,4 +17,8 @@
 	<include file="action/struts-department.xml"></include>
 	<!-- 用户User Action -->
 	<include file="action/struts-user.xml"></include>
+	<!-- 用于用户LoginoutAction -->
+	<include file="action/struts-loginout.xml"></include>
+	<!-- 用户首页的布局 -->
+	<include file="action/struts-home.xml"></include>
 </struts>

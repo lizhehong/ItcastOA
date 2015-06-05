@@ -23,7 +23,8 @@
 			<many-to-many class="User" column="userId"></many-to-many>
 		</set>
 		<!-- privileges属性，表达了我与Privilege多对多关系 -->
-		<set name="privileges" table="itacst_role_privilege">
+		<!-- 这里没有使用懒加载是为了在初始化web的时候能迭代出privileges -->
+		<set name="privileges" table="itacst_role_privilege" lazy="false">
    			<key column="roleId"></key>
    			<many-to-many class="Privilege" column="privilegeId"></many-to-many>
    		</set>

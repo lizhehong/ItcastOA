@@ -8,7 +8,7 @@ public class Privilege {
 	/**
 	 * NameSpace+ActionName
 	 */
-	private String uri;
+	private String url;
 	private String name;
 
 	private Set<Role> roles = new HashSet<Role>(0);
@@ -40,8 +40,8 @@ public class Privilege {
 	 * @param name
 	 * @param parent
 	 */
-	public Privilege(String name, String uri, Privilege parent) {
-		this.uri = uri;
+	public Privilege(String name, String url, Privilege parent) {
+		this.url = url;
 		this.name = name;
 		this.parent = parent;
 	}
@@ -54,12 +54,12 @@ public class Privilege {
 		this.id = id;
 	}
 
-	public String getUri() {
-		return uri;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setUri(String uri) {
-		this.uri = uri;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getName() {

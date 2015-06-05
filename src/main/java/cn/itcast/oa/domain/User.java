@@ -45,6 +45,36 @@ public class User {
 	 */
 	private Set<Role> roles = new HashSet<Role>(0);
 
+	/**
+	 * 
+	 * @Title: hasPrivilegeByName
+	 * @Description: 为left.jsp提供OGNL直接调用 判断当前用户是否有指定名称的权限
+	 * @param @param privilegeName
+	 * @param @return
+	 * @return boolean 返回类型
+	 * @throws
+	 */
+	public boolean hasPrivilegeByName(String privilegeName) {
+		// 如果是超级管理员,就有所有的全新啊
+		if (isAdmin()) {
+			return true;
+		}
+		// 如果不是超级管理员
+		for (Role role : roles) {
+			for (Privilege privilege : role.getPrivileges()) {
+				if (privilege.getName().equals(privilegeName)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	private boolean isAdmin() {
+		return "admin".equals(loginName);
+	}
+
 	public Long getId() {
 		return id;
 	}

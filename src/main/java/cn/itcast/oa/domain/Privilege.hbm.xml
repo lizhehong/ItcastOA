@@ -7,7 +7,7 @@
         <id name="id">
         	<generator class="native"></generator>
         </id>
-        <property name="uri" column="url"></property>
+        <property name="url" column="url"></property>
  		<property name="name" column="name"></property>  
    		
    		<!-- roles属性，表达了我与Privilege多对多的关系 -->
@@ -18,8 +18,9 @@
    		<!-- parent属性，表达了我与Privilege上级多对一的关系 -->
    		<many-to-one name="parent" class="Privilege" column="parentId"></many-to-one>
    		<!-- children属性，表达了我与Privilege下级一对多的关系 
-   			order-by="id" 按照id排序-->
-   		<set name="children" order-by="id">
+   			order-by="id" 按照id排序
+   			这里没有使用懒加载是为了在初始化web的时候能迭代出children-->
+   		<set name="children" order-by="id" lazy="false">
    			<key column="parentId"></key>
    			<one-to-many class="Privilege" />
    		</set>
