@@ -55,7 +55,7 @@ public class User {
 	 * @throws
 	 */
 	public boolean hasPrivilegeByName(String privilegeName) {
-		// 如果是超级管理员,就有所有的全新啊
+		// 如果是超级管理员,就有所有的权限
 		if (isAdmin()) {
 			return true;
 		}
@@ -69,6 +69,44 @@ public class User {
 		}
 
 		return false;
+	}
+
+	/**
+	 * 
+	 * @Title: hasPrivilegeByUrl
+	 * @Description: 当前用户是否有 指定的URL权限
+	 * @param @param privUrl
+	 * @param @return 设定文件
+	 * @return boolean 返回类型
+	 * @throws
+	 */
+	public boolean hasPrivilegeByUrl(String privUrl) {
+		// 如果是超级管理员,就有所有的全新啊
+		if (isAdmin()) {
+			return true;
+		}
+		
+		// 1.去掉后面的参数字符串(如果有)
+				int pos = privUrl.indexOf("?");
+				if (pos > -1)
+					privUrl = privUrl.substring(0, pos);
+				// 2.去掉后面的ui后缀(如果有)
+				if (privUrl.endsWith("UI")) {
+					privUrl = privUrl.substring(0, privUrl.length() - 2);
+				}
+
+		
+		// 如果不是超级管理员
+		for (Role role : roles) {
+			for (Privilege privilege : role.getPrivileges()) {
+				if (privUrl.equals(privilege.getUrl())) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+
 	}
 
 	private boolean isAdmin() {
