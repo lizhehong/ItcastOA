@@ -4,7 +4,7 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 <!-- 配置岗位管理 -->
 <struts>
-    <package name="role" namespace="/" extends="struts-default">
+    <package name="role" namespace="/" extends="struts-Privilege">
         <action name="role_*" class="roleAction" method="{1}">
             <result name="tolist" type="redirectAction">role_list</result>
         	<result name="saveUI">/WEB-INF/run/jsp/roleAction/saveUI.jsp</result>

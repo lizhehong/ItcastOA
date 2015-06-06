@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<!-- 配置部门管理 -->
+<struts>
+	<package name="struts-Privilege" extends="struts-default">
+		<interceptors>
+			<!-- 声明拦截器 -->
+			<interceptor name="checkPrivilege"
+				class="cn.itcast.oa.util.CheckPrivilegeInterceptor"></interceptor>
+			
+			
+			<!-- 配置我们自己的拦截器栈 -->
+			<interceptor-stack name="myDefaultStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="checkPrivilege"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+
+		<!-- 配置默认的拦截器栈 -->
+		<default-interceptor-ref name="myDefaultStack"></default-interceptor-ref>
+	
+		<!-- 全局的结果集 -->
+		<global-results>
+			<result name ="loginUI">/WEB-INF/run/jsp/loginoutAction/loginUI.jsp</result>
+			<result name ="noPrivilegeUI">/noPrivilege.jsp</result>
+		</global-results>	
+	
+	
+	</package>
+</struts>

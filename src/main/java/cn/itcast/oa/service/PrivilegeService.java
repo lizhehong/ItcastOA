@@ -17,5 +17,15 @@ public interface PrivilegeService extends DaoSupport<Privilege>{
 	* @throws
 	 */
 	List<Privilege> findTopList();
+	/**
+	 * 
+	* @Title: getAllPrivilegeUrls 
+	* @Description: 找到所有权限的URL名字 ,不包含空值,不包含重复的值
+	* @param 		null
+	* @return	    URL字符串集合
+	* @return List<String>    返回类型 
+	* @throws
+	 */
+	List<String> getAllPrivilegeUrls();
 
 }

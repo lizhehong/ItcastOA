@@ -4,7 +4,7 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 <!-- 配置部门管理 -->
 <struts>
-    <package name="department" namespace="/" extends="struts-default">
+    <package name="department" namespace="/" extends="struts-Privilege">
         <action name="department_*" class="departmentAction" method="{1}">
             <result name="tolist" type="redirectAction">department_list?parentId=${parentId}</result>
         	<result name="saveUI">/WEB-INF/run/jsp/departmentAction/saveUI.jsp</result>

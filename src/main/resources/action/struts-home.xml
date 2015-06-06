@@ -4,7 +4,7 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 <!-- 登录注销功能-->
 <struts>
-    <package name="homeAction" namespace="/" extends="struts-default">
+    <package name="homeAction" namespace="/" extends="struts-Privilege">
         <!-- 首页 -->
         <action name="home_*" class="homeAction" method="{1}">
             <result name="{1}">/WEB-INF/run/jsp/homeAction/{1}.jsp</result>

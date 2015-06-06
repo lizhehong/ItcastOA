@@ -4,7 +4,7 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 <!-- 配置用户管理 -->
 <struts>
-    <package name="user" namespace="/" extends="struts-default">
+    <package name="user" namespace="/" extends="struts-Privilege">
         <action name="user_*" class="userAction" method="{1}">
             <result name="tolist" type="redirectAction">user_list</result>
         	<result name="saveUI">/WEB-INF/run/jsp/userAction/saveUI.jsp</result>

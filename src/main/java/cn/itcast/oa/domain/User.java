@@ -1,7 +1,10 @@
 package cn.itcast.oa.domain;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.opensymphony.xwork2.ActionContext;
 
 public class User {
 	/**
@@ -85,28 +88,33 @@ public class User {
 		if (isAdmin()) {
 			return true;
 		}
-		
-		// 1.去掉后面的参数字符串(如果有)
-				int pos = privUrl.indexOf("?");
-				if (pos > -1)
-					privUrl = privUrl.substring(0, pos);
-				// 2.去掉后面的ui后缀(如果有)
-				if (privUrl.endsWith("UI")) {
-					privUrl = privUrl.substring(0, privUrl.length() - 2);
-				}
 
-		
-		// 如果不是超级管理员
-		for (Role role : roles) {
-			for (Privilege privilege : role.getPrivileges()) {
-				if (privUrl.equals(privilege.getUrl())) {
-					return true;
-				}
-			}
+		// 1.去掉后面的参数字符串(如果有)
+		int pos = privUrl.indexOf("?");
+		if (pos > -1)
+			privUrl = privUrl.substring(0, pos);
+		// 2.去掉后面的ui后缀(如果有)
+		if (privUrl.endsWith("UI")) {
+			privUrl = privUrl.substring(0, privUrl.length() - 2);
 		}
 
-		return false;
+		// 如果是普通用户，则需要判断权限
+		// a.如果这个URL是不需要控制的功能(登录后就能直接使用的)，应该返回true
+		Collection<String> allPrivilegeUrls = (Collection<String>) ActionContext.getContext().getApplication().get("allPrivilegeUrls");
+		if (!allPrivilegeUrls.contains(privUrl)) {
+			return true;
+		} else {
+			// b.如果这个URL是需要控制的功能(登录后，还得有对应的权限使用的)，这是应该判断权限的
+			for (Role role : roles) {
+				for (Privilege privilege : role.getPrivileges()) {
+					if (privUrl.equals(privilege.getUrl())) {
+						return true;
+					}
+				}
+			}
 
+			return false;
+		}
 	}
 
 	private boolean isAdmin() {

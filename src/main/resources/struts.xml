@@ -8,7 +8,9 @@
 	<!-- action扩展名改为.do -->
 	<constant name="struts.action.extension" value="do" />
 	<!-- theme set sample -->
-	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.ui.theme" value="simple" />	
+	<!-- 用于权限拦截器 -->
+	<include file="action/struts-privilege.xml"></include>
 	<!-- 用于test Action-->
 	<include file="cn/itcast/oa/test/struts-test.xml"/> 
 	<!-- 用于Role Action -->
@@ -21,4 +23,5 @@
 	<include file="action/struts-loginout.xml"></include>
 	<!-- 用户首页的布局 -->
 	<include file="action/struts-home.xml"></include>
+
 </struts>
