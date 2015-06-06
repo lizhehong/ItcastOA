@@ -1,5 +1,6 @@
 package cn.itcast.oa.domain;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ import java.util.Set;
  * @date 2015年5月20日 下午10:05:46
  *
  */
-public class Role {
+public class Role implements Serializable{
 	/**
 	 * 岗位主键
 	 */

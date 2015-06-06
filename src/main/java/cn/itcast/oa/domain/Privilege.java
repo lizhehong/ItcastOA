@@ -1,9 +1,10 @@
 package cn.itcast.oa.domain;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Privilege {
+public class Privilege implements Serializable{
 	private Long id;
 	/**
 	 * NameSpace+ActionName

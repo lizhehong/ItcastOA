@@ -1,9 +1,10 @@
 package cn.itcast.oa.domain;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Department {
+public class Department implements Serializable{
 	/**
 	 * 部门主键
 	 */

@@ -1,12 +1,13 @@
 package cn.itcast.oa.domain;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.opensymphony.xwork2.ActionContext;
 
-public class User {
+public class User implements Serializable{
 	/**
 	 * 用户主键
 	 */
